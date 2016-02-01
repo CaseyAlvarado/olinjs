@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/CaseyAlvarado/olinjs/issues"
   },
-  "homepage": "https://github.com/CaseyAlvarado/olinjs#readme"
+  "homepage": "https://github.com/CaseyAlvarado/olinjs#readme",
+  "dependencies": {
+    "mongoose": "^4.3.7"
+  }
 }
