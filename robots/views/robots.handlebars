@@ -1,0 +1,12 @@
+<h1> These are all of the robots you have: </h1>
+
+<ul>
+   {{#each robotcollection}}
+     <li style="font-size:20px">Robot:{{this.name}}. Are they evil?: {{this.isEvil}}</li>
+     <p> Their attributes are:</p> 
+     {{#each this.abilities}}
+     	<li> {{this}}</li>
+     {{/each}}
+
+   {{/each}}
+</ul>
