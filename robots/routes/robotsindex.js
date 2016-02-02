@@ -4,7 +4,7 @@ var db = require('../fakeDatabase');
 
 
 var possibleNames = ['Radmer', 'Sam', 'Whiskers', 'William Shakespeare', 'Mr. Tabby'];
-var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop']; 
+var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop', '']; 
 
 var Robot = require('../models/robotModel.js');
 
