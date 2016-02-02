@@ -1,0 +1,6 @@
+<h1> These are the cats that contain {{searchresult.query}} </h1> 
+<ul>
+   {{#each searchresult.catResults}}
+   		<li style="font-size:20px"> {{this.name}}, {{this.age}} years old, {{this.color}} fur color</li>
+   {{/each}}
+<ul>

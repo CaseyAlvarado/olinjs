@@ -1,0 +1,6 @@
+<h1> These are the cats that are between the ages of {{agegroup.lb}} and {{agegroup.ub}} </h1> 
+<ul>
+   {{#each agegroup.c}}
+   		<li style="font-size:20px"> {{this.name}}, {{this.age}} years old, {{this.color}} fur color</li>
+   {{/each}}
+<ul>
