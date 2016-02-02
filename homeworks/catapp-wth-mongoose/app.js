@@ -28,5 +28,5 @@ app.get('/cats', index.cats);
 app.get('/cats/bycolor/:color', index.bycolor); 
 app.get('/cats/delete/old', index.killcat);
 app.get('/cats/searchname/:name', index.partialSearch); 
-
+app.get('/cats/byage/:bounds', index.showAgeRange); 
 app.listen(3002);

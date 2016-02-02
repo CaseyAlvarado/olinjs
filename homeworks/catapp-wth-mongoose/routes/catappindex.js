@@ -1,12 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../fakeDatabase');
 var mongoose = require('mongoose');
 
 var catModel = require('../models/catModel');
 
 var possibleNames = ['Radmer', 'Sam', 'Whiskers', 'William Shakespeare', 'Mr. Tabby', 'Purrty'];
-var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop', 'yellow', 'polka dot']; 
+var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop', 'yellow', 'polka dot', 'orange', 'white']; 
 
 var cats = mongoose.model('cats', catModel.catSchema);
 
@@ -51,6 +50,7 @@ var newCat = function (request, response){
     console.log("Problem saving cat", err);
   }
   });
+    console.log(cat); 
   response.render('newcat', {"catinfo": {age: kitten.age, name: kitten.name, color: kitten.color}});
 }
 
@@ -87,27 +87,49 @@ var bycolor = function (request, response){
 var killcat = function(request, response){
   //input: request, response 
   //output: --renders information about the deleted cat to the screen
-
   //sort the cats by decreasing age, and with all conditions delete the cat. If error, then say that cat could not be deleted. 
   cats.findOneAndRemove('', {sort: {age: -1}})
       .exec(function(err, cat){ 
           if(err){ 
-            console.log("Could not delete cat", err); 
+            //this is weird
+            console.log("Could not delete cat object was", err);
+            response.send(404); 
           }
-          response.render('deletedcat', {'catinformation': {age: cat.age, name: cat.name, color: cat.color}}); 
-  }); 
+          response.render('deletedcat', {'catinformation': {header: "You have killed cat:", age: cat.age, name: cat.name, color: cat.color}})        
+      }); 
 }
 
 var partialSearch = function(request, response){
   //input: request, response
   //output: --renders the cats sorted by age that match the partial names
 
+  //make a regex from the name they want to search on
   var partialNameRequested = request.params.name;
-
   var regex = new RegExp(partialNameRequested, "i"); 
+
+  //search for the names requested and then sort by age. 
   cats.find({name: regex}, function(err, cats){
     console.log(cats); 
     response.render('namesearch', {'searchresult': {query: partialNameRequested, catResults: cats}}); 
+  }).sort({age: -1}); 
+}
+
+var catsInRange= function(request, response){ 
+  //input: request, response
+  //output: --renders the cats sorted by age from the specified bound age groups
+
+  //splits the inputs into lowerbounds and upperbounds
+  var lowerbound = parseInt(request.params.bounds.split('-')[0]);
+  var upperbound = parseInt(request.params.bounds.split('-')[1]);
+
+  //if they do not specify a lower bound, then assume that they mean from lower bound to max age, which is 100
+  if (isNaN(upperbound)){ 
+    upperbound = 100; 
+  }
+
+  //finds and sorts cats in descending order between lower and upper bound age ranges 
+  cats.find({age: {$gte: lowerbound, $lte: upperbound}}, function(err, cats){
+    response.render('agegroup', {'agegroup': {lb: lowerbound, ub: upperbound, c: cats}}); 
   }).sort({age: -1}); 
 }
 
@@ -117,3 +139,4 @@ module.exports.cats = catSort;
 module.exports.bycolor = bycolor; 
 module.exports.killcat= killcat; 
 module.exports.partialSearch = partialSearch; 
+module.exports.showAgeRange = catsInRange; 
