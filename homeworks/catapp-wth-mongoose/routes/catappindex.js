@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../fakeDatabase');
+var mongoose = require('mongoose');
 
+var catModel = require('../models/catModel');
 
-var possibleNames = ['Radmer', 'Sam', 'Whiskers', 'William Shakespeare', 'Mr. Tabby'];
-var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop']; 
+var possibleNames = ['Radmer', 'Sam', 'Whiskers', 'William Shakespeare', 'Mr. Tabby', 'Purrty'];
+var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop', 'yellow', 'polka dot']; 
+
+var cats = mongoose.model('cats', catModel.catSchema);
 
 function randomIntGenerator(min, max){ 
     // input: min and max number 
@@ -13,77 +17,16 @@ function randomIntGenerator(min, max){
     return Math.floor(Math.random()*(max -min)) + min; 
 } 
 
-function checkIfSorted(array){ 
-  //input: array
-  //output boolean = true is array is sorted, boolean = false if array is not sorted 
-
-  var sorted; 
-  for (var c = 1; c < array.length; c++){ 
-    if (array[c-1].age > array[c].age){ 
-      return sorted = false;  
-    }
-  }
-  return sorted = true; 
-}
-
-function sortCatsByAge(arrayOfCatObjects)
-{ 
-  //input: array of cat objects 
-  //output: an array of cat objects with one sorting pass through
-  for (var i = 1; i < arrayOfCatObjects.length; i++){ 
-    if (arrayOfCatObjects[i-1].age > arrayOfCatObjects[i].age){ 
-      var temp = arrayOfCatObjects[i-1]; 
-      arrayOfCatObjects[i-1] = arrayOfCatObjects[i]; 
-      arrayOfCatObjects[i] = temp; 
-    }
-  }
-  return arrayOfCatObjects; 
-}
-
-function recurseToSort(arrayOfCatObjects){
-  //input: array of cat objects 
-  //output: recurse through another pass to sort cat objects or returns fully sorted cat objects
-  var sorted = checkIfSorted(arrayOfCatObjects); 
-  if (sorted){ 
-    return arrayOfCatObjects
-  }
-  else if (!sorted){
-    var sortedCats = sortCatsByAge(arrayOfCatObjects); 
-    return recurseToSort(sortedCats); 
-  }
-}
-
-function filterCatsByColor(color, arrayOfCatObjects)
-{
-  //input: color to keep, and array of cat objects to filter 
-  //output: filtered array of cat objects 
-  var newArray = [];   
-  arrayOfCatObjects.forEach(function(cat){ 
-    if (cat.color == color){ 
-      newArray.push(cat); 
-    }
-  }); 
-  return newArray; 
-}
-
-function findCatIndex(cat, arrayOfCats){ 
-  //input: cat wanted and array of cats to search for this cat in 
-  //output: index of the cat 
-  for (var j = 0; j < arrayOfCats.length; j++){ 
-    if((cat.age == arrayOfCats[j].age) && (cat.name == arrayOfCats[j].name) && (cat.color == arrayOfCats[j].color)){ 
-      return j; 
-    }
-  }
-}
-
 function Cat(){
   //input: - 
   //output: an "instance" of the Cat class with random values for age, name, and color
+
+  //make a new cat with a random age from 0 to 100, random name from possble names, and random name from possible colors
   var cat = {
     age: randomIntGenerator(0, 100),
     name: possibleNames[randomIntGenerator(0, (possibleNames.length -1))],
     color: possibleColors[randomIntGenerator(0, (possibleColors.length -1))]
-  };
+  }; 
   return cat;
 }
 
@@ -96,40 +39,81 @@ var home = function (request, response){
 var newCat = function (request, response){
   //input: request, response 
   //output: renders information about new cat to the screen 
+
+  //make a new cat
   var kitten = new Cat(); 
-  db.add(kitten);
+
+  //add and save new cat to the cats database with cat schema
+  var cats = mongoose.model('cats', catModel.catSchema);
+  var cat = new cats({age: kitten.age , name: kitten.name, color: kitten.color});
+  cat.save(function (err) {
+  if (err) {
+    console.log("Problem saving cat", err);
+  }
+  });
   response.render('newcat', {"catinfo": {age: kitten.age, name: kitten.name, color: kitten.color}});
 }
 
-var cats = function (request, response){  
+var catSort = function (request, response){  
   //input: request, response
   //output: renders sorted list of cats to the screen 
-  var sortedCats = recurseToSort(db.getAll()); 
-  response.render('cats', {"cat" : sortedCats}); 
+
+  //find all cats sorted with decreasing age. 
+  var sortedCatttss = cats.find({}, function(err, cat){ 
+    if (err){ 
+      console.log(err); 
+    }
+
+    response.render('cats', {"cats" : cat});
+  }).sort({age: -1});    
 }
 
 var bycolor = function (request, response){
   //input: request, response 
-  //output: -- renders filtered, sorted list of cats to the screen 
-  var color = request.params.color.split(':')[1];  
-  var filteredArray = filterCatsByColor(color, db.getAll()); 
-  var catsSortedByAge = recurseToSort(filteredArray); 
-  response.render('sortedbycolor', {'catinformation': {color: color, cat:catsSortedByAge}});
+  //output: -- renders filtered, sorted list of cats to the screen
+
+  //split off the ":" in front of the color 
+  var colorRequested = request.params.color;
+
+  //find the cats that have the specified color and sort the filtered cats by decreasing age
+  cats.find({color : colorRequested}, function(err, cats){
+    if(err){ 
+      console.log(err); 
+    } 
+    response.render('sortedbycolor', {'catinformation': {color: colorRequested, cat:cats}});
+  }).sort({age: -1}); 
 }
 
 var killcat = function(request, response){
   //input: request, response 
   //output: --renders information about the deleted cat to the screen
-  var orderedCats = recurseToSort(db.getAll());
-  var index = findCatIndex(orderedCats[orderedCats.length -1], db.getAll()); 
-  var kittens = db.getAll(); 
-  var kittenKilled = kittens[index]
-  db.remove(index); 
-  response.render('deletedcat', {'catinformation': {age: kittenKilled.age, name: kittenKilled.name, color: kittenKilled.color}}); 
+
+  //sort the cats by decreasing age, and with all conditions delete the cat. If error, then say that cat could not be deleted. 
+  cats.findOneAndRemove('', {sort: {age: -1}})
+      .exec(function(err, cat){ 
+          if(err){ 
+            console.log("Could not delete cat", err); 
+          }
+          response.render('deletedcat', {'catinformation': {age: cat.age, name: cat.name, color: cat.color}}); 
+  }); 
+}
+
+var partialSearch = function(request, response){
+  //input: request, response
+  //output: --renders the cats sorted by age that match the partial names
+
+  var partialNameRequested = request.params.name;
+
+  var regex = new RegExp(partialNameRequested, "i"); 
+  cats.find({name: regex}, function(err, cats){
+    console.log(cats); 
+    response.render('namesearch', {'searchresult': {query: partialNameRequested, catResults: cats}}); 
+  }).sort({age: -1}); 
 }
 
 module.exports.home = home;
 module.exports.newCat = newCat; 
-module.exports.cats = cats; 
+module.exports.cats = catSort; 
 module.exports.bycolor = bycolor; 
 module.exports.killcat= killcat; 
+module.exports.partialSearch = partialSearch; 
