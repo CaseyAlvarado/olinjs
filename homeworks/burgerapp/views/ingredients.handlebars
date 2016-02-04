@@ -1,0 +1,21 @@
+<h1>Ingredients and Cool Stuff</h1>
+
+<form id="ajax-form" action="addIngredientsPOST" method="POST">
+  Name: <input type="text" name="name"/><br/>
+  Price: <input type="text" name="price"/><br/>
+  <input type="submit" value="Submit">
+</form>
+<div id="result">
+</div>
+
+<ul id = "indredients-list"> 
+{{#each is}} 
+  <li> {{this.name}}, {{this.price}} <li>
+{{/each}}
+</ul>
+
+<div id="result">
+</div>
+
+
+

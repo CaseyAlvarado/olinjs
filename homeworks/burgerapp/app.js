@@ -4,12 +4,13 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'); 
+
+mongoose.connect('mongodb://localhost/BurgerApp');
 
 var express = require('express');
-var index = require('./routes/catappindex')
+var ingredients = require('./routes/ingredients');
 var app = express();
-
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -19,13 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-mongoose.connect('mongodb://localhost/AllDaCats');
 
-app.get('/', index.home);
-app.get('/new', index.newCat); 
-app.get('/cats', index.cats); 
-app.get('/cats/bycolor/:color', index.bycolor); 
-app.get('/cats/delete/old', index.killcat);
-app.get('/cats/searchname/:name', index.partialSearch); 
-app.get('/cats/byage/:bounds', index.showAgeRange); 
+// app.get('/', ingredients.home);
+app.get('/ingredients', ingredients.getIngredientsGET);
+app.post('/ingredients', ingredients.addIngredientPOST);
+
 app.listen(3002);
