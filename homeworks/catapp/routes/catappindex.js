@@ -6,6 +6,7 @@ var db = require('../fakeDatabase');
 var possibleNames = ['Radmer', 'Sam', 'Whiskers', 'William Shakespeare', 'Mr. Tabby'];
 var possibleColors = ['red', 'blue', 'mud colored', 'green', 'poop']; 
 
+// I might move all these utility functions to a seperate utils.js file
 function randomIntGenerator(min, max){ 
     // input: min and max number 
     // output: integer random number between min and max 
@@ -30,6 +31,8 @@ function sortCatsByAge(arrayOfCatObjects)
 { 
   //input: array of cat objects 
   //output: an array of cat objects with one sorting pass through
+  //
+  //I might use a forEach call here instead, I think they are clearer and cleaner
   for (var i = 1; i < arrayOfCatObjects.length; i++){ 
     if (arrayOfCatObjects[i-1].age > arrayOfCatObjects[i].age){ 
       var temp = arrayOfCatObjects[i-1]; 
@@ -58,6 +61,7 @@ function filterCatsByColor(color, arrayOfCatObjects)
   //input: color to keep, and array of cat objects to filter 
   //output: filtered array of cat objects 
   var newArray = [];   
+  // Yeah like that :P, I would do this for all of them to be consistent
   arrayOfCatObjects.forEach(function(cat){ 
     if (cat.color == color){ 
       newArray.push(cat); 
@@ -111,6 +115,8 @@ var cats = function (request, response){
 var bycolor = function (request, response){
   //input: request, response 
   //output: -- renders filtered, sorted list of cats to the screen 
+  //
+  //uuh I don't know any colors with a colon in them
   var color = request.params.color.split(':')[1];  
   var filteredArray = filterCatsByColor(color, db.getAll()); 
   var catsSortedByAge = recurseToSort(filteredArray); 

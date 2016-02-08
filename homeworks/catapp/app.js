@@ -24,4 +24,5 @@ app.get('/cats', index.cats);
 app.get('/cats/bycolor/:color', index.bycolor); 
 app.get('/cats/delete/old', index.killcat); 
 
+//console.log() the port you are using
 app.listen(3002);

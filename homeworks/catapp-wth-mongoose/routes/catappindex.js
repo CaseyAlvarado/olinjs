@@ -44,6 +44,8 @@ var newCat = function (request, response){
 
   //add and save new cat to the cats database with cat schema
   var cats = mongoose.model('cats', catModel.catSchema);
+  //you could do:
+  //var cat = new cats(kitten);
   var cat = new cats({age: kitten.age , name: kitten.name, color: kitten.color});
   cat.save(function (err) {
   if (err) {
@@ -59,6 +61,7 @@ var catSort = function (request, response){
   //output: renders sorted list of cats to the screen 
 
   //find all cats sorted with decreasing age. 
+  // Why make the var sortedCatttsss?
   var sortedCatttss = cats.find({}, function(err, cat){ 
     if (err){ 
       console.log(err); 
@@ -88,6 +91,7 @@ var killcat = function(request, response){
   //input: request, response 
   //output: --renders information about the deleted cat to the screen
   //sort the cats by decreasing age, and with all conditions delete the cat. If error, then say that cat could not be deleted. 
+  //nice use of mongoose functions :D
   cats.findOneAndRemove('', {sort: {age: -1}})
       .exec(function(err, cat){ 
           if(err){ 

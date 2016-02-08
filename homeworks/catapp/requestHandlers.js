@@ -1,3 +1,5 @@
+// What are all these files for? I'm pretty confused.
+
 //handles each request differently 
 //request handlers swhere the router routes requests off to 
 
