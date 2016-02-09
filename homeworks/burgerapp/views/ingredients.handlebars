@@ -1,3 +1,4 @@
+
 <h1>Ingredients and Cool Stuff</h1>
 
 <form id="ajax-form" action="addIngredientsPOST" method="POST">
@@ -5,17 +6,10 @@
   Price: <input type="text" name="price"/><br/>
   <input type="submit" value="Submit">
 </form>
-<div id="result">
-</div>
+<div id="result"></div>
 
-<ul id = "indredients-list"> 
+<ul id = 'ingredientsList'>
 {{#each is}} 
-  <li> {{this.name}}, {{this.price}} <li>
+  <li id = {{this.id}}>  {{this.name}}, {{this.price}}  <button type = 'button' class = 'editButton' value = 'EDIT'> Edit This Ingredient</button> <button type = 'button' class = 'outOfStock' value = 'OUTOFSTOCK'> Out Of Stock</button> </li>
 {{/each}}
 </ul>
-
-<div id="result">
-</div>
-
-
-

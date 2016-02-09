@@ -10,6 +10,8 @@ mongoose.connect('mongodb://localhost/BurgerApp');
 
 var express = require('express');
 var ingredients = require('./routes/ingredients');
+var order = require('./routes/order'); 
+var kitchen = require('./routes/kitchen')
 var app = express();
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -23,6 +25,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // app.get('/', ingredients.home);
 app.get('/ingredients', ingredients.getIngredientsGET);
-app.post('/ingredients', ingredients.addIngredientPOST);
-
-app.listen(3002);
+app.post('/ingredients/add', ingredients.addIngredientPOST);
+app.post('/ingredients/edit', ingredients.updateIngredientsPOST); 
+app.post('/ingredient/outOfStock', ingredients.updateStockPOST); 
+app.get('/order', order.populateIngredientsGET); 
+app.post('/order/addOrderPOST', order.addOrderPOST); 
+app.get('/kitchen', kitchen.populateOrdersGET); 
+app.post('/kitchen/completed', kitchen.updateCompletedPOST); 
+app.listen(2000);
