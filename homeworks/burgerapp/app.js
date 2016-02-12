@@ -23,7 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get('/', ingredients.home);
 app.get('/ingredients', ingredients.getIngredientsGET);
 app.post('/ingredients/add', ingredients.addIngredientPOST);
 app.post('/ingredients/edit', ingredients.updateIngredientsPOST); 

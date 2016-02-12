@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CaseyAlvarado/olinjs#readme",
   "dependencies": {
+    "lodash": "^4.3.0",
     "mongoose": "^4.3.7"
   }
 }

@@ -35,7 +35,6 @@ var addIngredient = function(request, response){
 	})
 }
 
-
 routes.getIngredientsGET = function(request, response){ 
 	//Input: request, response objects 
 	//Output: --, renders a handlebars template with all of the ingredients in the database
