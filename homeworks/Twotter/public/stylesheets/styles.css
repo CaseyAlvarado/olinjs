@@ -1,0 +1,100 @@
+body {
+	background-color: #0084b4;
+	/*637DE8*/
+
+}
+.newsFeed{
+	background-color: #0084b4;
+	margin-left: 10px; 
+	margin-right:320px;
+	margin-bottom: 10px;
+	border-radius:5px;
+}
+.sidebar { 
+	background-color: orange;
+	margin: 10px;
+	border-radius: 10px; 
+	padding: 10px; 
+	font-size: 105%;
+ 	float: right;
+    width: 260px;
+    font-size: 20px; 
+}
+
+.divFeed{  
+	background-color: gray; 
+	margin-left: 10px; 
+	margin-right: 320px;
+	margin-bottom: 10px; 
+	margin-bottom: 10px; 
+	border-radius: 5px; 
+	height: 70px; 
+	font-size: 50px; 
+	text-align: 'center'; 
+	padding: 10px; 
+
+}
+.highlight {
+    background-color: yellow; 
+
+}
+.logInHeader{ 
+	background-color: orange; 
+	margin-top: 10px; 
+	margin-left: 10px; 
+	margin-bottom: 10px; 
+	margin-right: 10px; 
+	padding: 10px; 
+}
+
+.logInBody{ 
+	background-color: #0084b4; 
+	margin-top: 10px; 
+	margin-left: 10px; 
+	margin-bottom: 10px; 
+	margin-right: 10px; 
+	padding: 10px; 
+}
+
+a{ 
+	color: white;
+	font-size: 40px; 
+	text-align: center;
+}
+
+img{ 
+	vertical-align: center; 
+	text-align: center;
+}
+
+.welcomeHeaderText{ 
+	font-size: 30px; 
+	color: black; 
+	text-align: right; 
+}
+
+.welcomeHeader{ 
+	background-color: orange; 
+	margin-top: 10px; 
+	margin-left: 10px; 
+	margin-bottom: 10px; 
+	margin-right: 10px; 
+	padding: 10px; 
+}
+
+.twotInput{ 
+	height: 50px; 
+	width: 400px; 
+}
+
+.logout{  
+	width: 80px; 
+	height: 30px; 
+	float: right; 
+}
+.delete{ 
+	width: 50px;
+	height: 50px;
+	float: right; 
+
+}
