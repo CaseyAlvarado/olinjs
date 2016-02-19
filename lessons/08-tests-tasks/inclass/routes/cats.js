@@ -26,13 +26,13 @@ cats.new = function(req, res) {
     name: name,
     age: age,
     colors: catColors
-  };
+  }; 
   var newCat = new Cat(catObj);
   newCat.save(function(err) {
     if (err) {
       res.status(500).send('Something broke!');
     } else {
-      res.render("cats", {
+      res.status(200).render("cats", {
         message: "New cat created:",
         cats: [catObj]
       });

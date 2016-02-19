@@ -19,6 +19,17 @@ describe('Cat Model', function() {
 
   // What else can you test?
 
+  it('should group cats by color', function(done){ 
+    Cat.find({colors: ['greenish']})
+      .sort({age: -1})
+      .exec(function(err){ 
+        if(err){ 
+          return done(err); 
+        }
+        done(); 
+      });
+  });
+
   it('should remove a cat by name', function(done) {
     Cat.remove({ name: 'Fluffy' }, function(err) {
       if (err) {

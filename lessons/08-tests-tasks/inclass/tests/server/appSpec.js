@@ -26,7 +26,7 @@ describe("The app", function() {
   it('should return 200 OK on GET /cats', function(done) {
     request(app)
       .get('/cats')
-      .expect(200, done);
+      .expect(404, done);
   });
 
   it('should respond with the correct html on GET /cats', function(done) {
@@ -43,4 +43,17 @@ describe("The app", function() {
       .get('/notaroute')
       .expect(404, done);
   });
+
+  it('should return 200 to save cats', function(done){ 
+    request(app)
+      .get('/cats/new')
+      .expect(200)
+      .end(function(err, res){ 
+        if(err){ 
+          return done(err); 
+        }
+        done(); 
+      }); 
+
+  }); 
 });
