@@ -1,0 +1,46 @@
+<head> 
+	<link rel="stylesheet" href="stylesheets/styles.css">
+	<link href="/auth/facebook"> 
+</head> 
+<body id = 'newsfeed'> 
+	<header class = 'welcomeHeader'>
+		{{#if a}}
+		<span id = {{user._id}} class = "welcomeHeaderText"> Welcome {{user.name}}</span> 
+		<span id = 'logoutButton'> <button type = 'button' class = 'logout'> Log Out</button> </span>
+		<form id="ajax-form" action="addNewTwot" method="POST">
+		<h2>Twot: </h2> <input type="text" name="twot" class="twotInput" />
+		<input type="submit" value="Post">
+		</form>
+		{{else}}
+		<span class = "welcomeHeaderText"> Welcome Rando User</span> 
+		{{/if}}
+
+	</header> 
+	<div class = "sectionForNewsFeed" width = 100> 
+		<div class = "sidebar" align = "right", width = 20>
+		{{#if a}}
+			<ul id = "usersOnTheSide">
+				<span id = {{user._id}}> {{user.name}} </span> <br>
+				{{#each allTheUsers}}
+					<span id = {{this._id}} > {{this}} </span>
+				{{/each}}
+			</ul>
+		{{else}}
+			<ul id = "usersOnTheSide">
+				<span id = 'rando'> Rando User </span> <br>
+			</ul>
+		{{/if}}
+		</div>
+		<div class = "newsfeed" align = "left" width = 80>
+			<ul id = "feed"> 
+			{{#each twot}}
+				{{#if this.madeByUser}}
+					<div id = {{this.id}} class = 'divFeed'> {{this.text}}   --{{this.name}}<button type = 'button' class = 'delete' align = 'right'> X </button> </div>
+				{{else}}
+					<div id = {{this.id}} class = 'divFeed'> {{this.text}}   --{{this.name}} </div>
+				{{/if}}
+			{{/each}}
+			</ul>
+		</div>
+	</div>
+</body>
