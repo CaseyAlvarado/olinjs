@@ -1,0 +1,17 @@
+<h1> Place an Order: <h1> 
+
+Name: <input type="text" name="name"/><br/>
+
+
+<ul id= 'checkboxOfIngredients'>
+  {{#each ingredient.ingredient}}
+  	{{#if this.outOfStock}} 
+  		<input type="checkbox" disabled name = {{this.name}} value= {{this.price}} id = {{this.id}}> {{this.name}} , {{this.price}} </input> <br>
+  	{{else}}
+  		<input type="checkbox" enabled name = {{this.name}} value= {{this.price}} id = {{this.id}}> {{this.name}} , {{this.price}} </input> <br>
+  	{{/if}}
+  {{/each}}
+</ul>
+
+<h1 id = 'totalPrice'> This is your price: <span id = 'priceval'> {{ingredient.price}}</span></h1>
+<span id = 'submitButton'><button type="button" class = "submit" value="Submit"> Submit Your Order </button></span>

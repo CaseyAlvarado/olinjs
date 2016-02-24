@@ -1,0 +1,15 @@
+<h1> Kitchen, Here are your orders: </h1> 
+
+<ul id = 'pendingOrders'> 
+{{#each order}}
+<li id = {{this.id}}> 
+	<h4> Name: {{this.name}} </h4> 
+	<h4> Price: {{this.price}} </h4>
+	{{#each this.ingredients}}
+	With the following ingredients: 
+		<h5> {{this.name}}, {{this.price}} </h5>
+	{{/each}}
+	<button type = 'button' class = "completed"> Completed </button>
+</li> 
+{{/each}}
+</ul> 
