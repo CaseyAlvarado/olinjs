@@ -1,0 +1,33 @@
+body{ 
+
+}
+
+.delete {
+	display: inline; 
+	margin: 5;
+	padding: 15;
+	border: 10;
+	background: none;
+	font-size: 100%;
+	vertical-align: baseline;
+	font-smoothing: antialiased;
+	background-color: blue;
+	float: right; 
+	color: white; 
+}
+
+.aca { 
+	float: middle; 
+	margin: 5; 
+	padding: 5;
+	border: 7; 
+	font-size: 90%;
+	width: 60;
+	height: 50; 
+	text-align: center; 
+	vertical-align: middle; 
+}
+
+.selectTab{ 
+	text-align: center; 
+}

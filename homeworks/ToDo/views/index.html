@@ -1,0 +1,86 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="ToDo">
+<head>
+
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Node/Angular Todo App</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #todo-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script text = "text/javascript" src="javascripts/main.js"></script>
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<body ng-controller="mainController">
+    <div class="container">
+
+        <!-- HEADER AND TODO COUNT -->
+        <div class="jumbotron text-center">
+            <h1>To-Doz </h1>
+                <h2> You have <span class="label label-info">{{ todos.length }}</span> <span class = "a-c-a"> {{aca}} todo items </h2>   
+        </div>
+
+        <div class = "selectTab">
+            <button id = "active" ng-click = "enableActive()"> Active </button>
+            <button id = "completed" ng-click = "enableCompleted()"> Completed </button> 
+            <button id = "alls" ng-click = "enableAlls()"> All </button> 
+        </div>
+         <!-- TODO LIST -->
+        <div id="todo-list" class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+
+                <!-- LOOP OVER THE TODOS IN $scope.todos -->
+                <div class="checkbox" ng-repeat="todo in todos">
+                    <BUTTON class = "delete" ng-click = "removeToDO(todo)"> X </BUTTON> 
+                        <div ng-hide="todo.editorEnabled">
+
+                            <input type="checkbox" ng-disabled = "todo.done" ng-click="completedTodo(todo)">{{ todo.text }}
+                            <a href="#" ng-click="enableEditor(todo)"> Edit title </a>
+                        </div>
+                        <div ng-show="todo.editorEnabled">
+                            <input ng-model="todo.text" ng-show="todo.editorEnabled">
+                            <a href="#" ng-click="save(todo)"> Save </a>
+                            or
+                            <a href="#" ng-click="disableEditor(todo)"> cancel </a>.       
+                        </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FORM TO CREATE TODOS -->
+        <div id="todo-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+
+                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Buy a puppy that will love me forever" ng-model="formData.text">
+                    </div>
+
+                    <!-- createToDo() WILL CREATE NEW TODOS -->
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
