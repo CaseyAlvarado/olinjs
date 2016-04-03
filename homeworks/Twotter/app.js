@@ -93,7 +93,7 @@ app.get('/account', ensureAuthenticated, function(req, res){
     }
   });
 });
-
+//Wait what?
 app.get("/test", function(req, res) {
   res.send("LOL test\n");
 });
@@ -109,7 +109,7 @@ app.get('/auth/facebook/callback',
     res.redirect('/twotsfeed');
   });
 
-
+//a home route would be nice also.
 app.get('/twotsfeed', newsfeed.twotsFeedGET);
 app.get('/login', newsfeed.login); 
 app.post('/twotsfeed/addNewTwot', newsfeed.addNewTwotPOST);
