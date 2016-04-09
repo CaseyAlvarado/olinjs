@@ -1,6 +1,8 @@
 var request = require('supertest');
 var app = require('../../app.js');
 
+
+// Nice architecture for all your test suites!
 describe("Testing Twotter", function() {
   it('should return 200 OK on GET /login', function(done) {
     request(app)
